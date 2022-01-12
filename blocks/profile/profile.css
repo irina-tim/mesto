@@ -1,0 +1,8 @@
+.profile {
+  width: 100%;
+  background: red;
+  color: white;
+  display: grid;
+  grid-template-columns: 120px 1fr 1fr;
+  align-items: center;
+}

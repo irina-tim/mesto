@@ -7,6 +7,16 @@
     <link rel="stylesheet" href="./pages/index.css" />
   </head>
   <body>
+    <!-- Popup -->
+    <div class="popup popup_opened">
+      <form class="popup__container">
+        <h1 class="popup__title">Редактировать профиль</h1>
+        <input class="popup__input" type="text" name="fullname" value="Жак-Ив Кусто">
+        <input class="popup__input"  type="text" name="description" value="Исследователь океана">
+        <button class="popup__submit-button" type="submit">Сохранить</button>
+        <button class="popup__close"></button>
+      </form>
+    </div>
     <div class="page">
       <!-- Header -->
       <header class="header page__header">
@@ -72,7 +82,7 @@
       <!-- Footer -->
       <footer class="footer page__footer">
         <p class="footer__copyright">© 2020 Mesto Russia</p>
-      </footer>
+      </footer>      
     </div>
   </body>
 </html>

@@ -5,3 +5,10 @@
   background-image: url(../../../images/profile-avatar.jpg);
   background-size: cover;
 }
+
+@media screen and (max-width: 900px) {
+  .profile__avatar {
+      justify-self: center;
+      margin-bottom: 26px;   
+  }
+}

@@ -4,3 +4,17 @@
   font: 500 42px/48px "Inter", Arial, sans-serif;
   margin-bottom: 8px;
 }
+
+@media screen and (max-width: 900px) {
+  .profile__title {
+      margin: 0;   
+  }
+}
+
+@media screen and (max-width: 440px) {
+  .profile__title {
+    font-size: 27px;
+    line-height: 33px;
+    margin-left: 28px;  
+  }
+}

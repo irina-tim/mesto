@@ -6,8 +6,24 @@
   padding: 0;
   margin-left: 18px;
   transition: opacity .2s ease;
+<<<<<<< HEAD
 }
 
 .profile__edit-button:hover {
   opacity: 0.6;
+=======
+  cursor: pointer;
+>>>>>>> develop
+}
+
+.profile__edit-button:hover {
+  opacity: 0.6;
+}
+
+@media screen and (max-width: 440px) {
+  .profile__edit-button {
+    width: 18px;
+    height: 18px;
+    margin-left: 10px;  
+  }
 }

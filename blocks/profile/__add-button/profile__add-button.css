@@ -6,9 +6,38 @@
   border-radius: 2px;
   padding: 0;
   background: transparent url(../../../images/add-button-plus.svg) no-repeat center/22px;
+<<<<<<< HEAD
   transition: opacity .2s ease;
+=======
+  transition: opacity .3s ease;
+  cursor: pointer;
+>>>>>>> develop
 }
 
 .profile__add-button:hover {
   opacity: 0.6;
+<<<<<<< HEAD
+=======
+}
+
+@media screen and (max-width: 900px) {
+  .profile__add-button {
+    justify-self: center;  
+    width: 50%; 
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .profile__add-button {
+    justify-self: center;  
+    width: 70%;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .profile__add-button {
+    justify-self: center;  
+    width: 100%;
+  }
+>>>>>>> develop
 }

@@ -4,3 +4,11 @@
     color: #545454;
     font: normal 18px/22px "Inter", Arial, sans-serif;
 }
+
+@media screen and (max-width: 550px) {
+    .footer__copyright {
+      font-size: 14px;
+      line-height: 17px;
+    }
+  }
+

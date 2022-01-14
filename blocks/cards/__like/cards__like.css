@@ -1,11 +1,11 @@
 .cards__like {
-    background-image: url(../../../images/cards-heart-empty.svg);
-    width: 22px;
-    height: 19px;
-    transition: all .2s ease;
-    cursor: pointer;
+  background-image: url(../../../images/cards-heart-empty.svg);
+  width: 22px;
+  height: 19px;
+  transition: all .2s ease;
+  cursor: pointer;
 }
 
 .cards__like:hover {
-    background-image: url(../../../images/cards-heart-hover.svg);
+  background-image: url(../../../images/cards-heart-hover.svg);
 }

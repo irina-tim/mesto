@@ -4,7 +4,8 @@ let popupCloseButton = document.querySelector('.popup__close');
 let nameInput = document.querySelector('.popup__input-name');
 let descriptionInput = document.querySelector('.popup__input-description');
 let profileName = document.querySelector('.profile__title');
-let profileDescription = document.querySelector('.profile__subtitle')
+let profileDescription = document.querySelector('.profile__subtitle');
+let formElement = document.querySelector('.popup__container');
 
 profileEditButton.addEventListener('click', () => {
   popup.classList.add('popup_opened');
@@ -23,3 +24,12 @@ popup.addEventListener('click', (event) => {
     closePopup();
   }
 })
+
+function formSubmitHandler (evt) {
+  evt.preventDefault();
+  profileName.textContent = nameInput.value;
+  profileDescription.textContent = descriptionInput.value;
+  closePopup();
+}
+
+formElement.addEventListener('submit', formSubmitHandler);

@@ -16,21 +16,21 @@
 
 @media screen and (max-width: 900px) {
   .profile__add-button {
-    justify-self: center;  
+    justify-self: center;    
     width: 50%; 
   }
 }
 
 @media screen and (max-width: 700px) {
   .profile__add-button {
-    justify-self: center;  
+    justify-self: center;
     width: 70%;
   }
 }
 
 @media screen and (max-width: 450px) {
   .profile__add-button {
-    justify-self: center;  
+    justify-self: center;
     width: 100%;
   }
 }

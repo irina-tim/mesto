@@ -1,9 +1,9 @@
 .cards__title {
-    margin: 0;
-    padding: 0;
-    font: 900 24px/29px "Inter", Arial, sans-serif;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-    max-width: 190px;
+  margin: 0;
+  padding: 0;
+  font: 900 24px/29px "Inter", Arial, sans-serif;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 190px;
 }

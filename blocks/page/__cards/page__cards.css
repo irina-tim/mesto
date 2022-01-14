@@ -3,7 +3,7 @@
 }
 
 @media screen and (max-width: 450px) {
-    .page__cards {
-      margin-bottom: 48px;
-    }
+  .page__cards {
+    margin-bottom: 48px;
   }
+}

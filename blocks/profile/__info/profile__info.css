@@ -3,8 +3,6 @@
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
-<<<<<<< HEAD
-=======
 }
 
 @media screen and (max-width: 900px) {
@@ -13,5 +11,4 @@
     justify-self: center;
     justify-content: center;  
   }
->>>>>>> develop
 }

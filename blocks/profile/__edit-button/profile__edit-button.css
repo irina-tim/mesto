@@ -6,14 +6,7 @@
   padding: 0;
   margin-left: 18px;
   transition: opacity .2s ease;
-<<<<<<< HEAD
-}
-
-.profile__edit-button:hover {
-  opacity: 0.6;
-=======
   cursor: pointer;
->>>>>>> develop
 }
 
 .profile__edit-button:hover {

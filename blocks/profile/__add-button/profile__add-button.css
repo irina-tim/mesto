@@ -5,8 +5,9 @@
   border: 2px solid #ffffff;
   border-radius: 2px;
   padding: 0;
-  background: transparent url(../../../images/add-button-plus.svg) no-repeat center/22px;
-  transition: opacity .3s ease;
+  background: transparent url(../../../images/add-button-plus.svg) no-repeat
+    center/22px;
+  transition: opacity 0.3s ease;
   cursor: pointer;
 }
 
@@ -17,20 +18,18 @@
 @media screen and (max-width: 900px) {
   .profile__add-button {
     justify-self: center;
-    width: 50%; 
+    width: 50%;
   }
 }
 
 @media screen and (max-width: 700px) {
   .profile__add-button {
-    justify-self: center;
     width: 70%;
   }
 }
 
 @media screen and (max-width: 450px) {
   .profile__add-button {
-    justify-self: center;
     width: 100%;
   }
 }

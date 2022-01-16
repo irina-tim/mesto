@@ -7,16 +7,6 @@
     <link rel="stylesheet" href="./pages/index.css" />
   </head>
   <body>
-    <!-- Popup -->
-    <div class="popup">
-      <form class="popup__container">
-        <h1 class="popup__title">Редактировать профиль</h1>
-        <input class="popup__input popup__input-name" type="text" name="fullname" value="">
-        <input class="popup__input popup__input-description"  type="text" name="description" value="">
-        <button class="popup__submit-button" type="submit">Сохранить</button>
-        <button class="popup__close"></button>
-      </form>
-    </div>
     <div class="page">
       <!-- Header -->
       <header class="header page__header">
@@ -28,62 +18,124 @@
           <div class="profile__avatar"></div>
           <div class="profile__info">
             <h1 class="profile__title">Жак-Ив Кусто</h1>
-            <button class="profile__edit-button"></button>
+            <button class="profile__edit-button" type="button"></button>
             <p class="profile__subtitle">Исследователь океана</p>
           </div>
-          <button class="profile__add-button"></button>
+          <button class="profile__add-button" type="button"></button>
         </section>
         <!-- Cards section -->
         <section class="cards page__cards">
-          <div class="cards__card">
-            <img class="cards__image" src="./images/cards-karachaevsk.jpg" alt="Старинный храм в городе Карачаевск">
-            <div class="cards__caption">
-              <h2 class="cards__title">Карачаевск</h2>
-              <div class="cards__like"></div>
-            </div>            
-          </div>
-          <div class="cards__card">
-            <img class="cards__image" src="./images/profile-elbrus.jpg" alt="Гора Эльбрус но фоне заката">
-            <div class="cards__caption">
-              <h2 class="cards__title">Гора Эльбрус</h2>
-              <div class="cards__like"></div>
-            </div>            
-          </div>
-          <div class="cards__card">
-            <img class="cards__image" src="./images/cards-dombay.jpg" alt="Горный хребет Домбай">
-            <div class="cards__caption">
-              <h2 class="cards__title">Домбай</h2>
-              <div class="cards__like"></div>
-            </div>            
-          </div>
-          <div class="cards__card">
-            <img class="cards__image" src="./images/profile-elbrus.jpg" alt="Гора Эльбрус но фоне заката">
-            <div class="cards__caption">
-              <h2 class="cards__title">Гора Эльбрус</h2>
-              <div class="cards__like"></div>
-            </div>            
-          </div>
-          <div class="cards__card">
-            <img class="cards__image" src="./images/cards-dombay.jpg" alt="Горный хребет Домбай">
-            <div class="cards__caption">
-              <h2 class="cards__title">Домбай</h2>
-              <div class="cards__like"></div>
-            </div>            
-          </div>
-          <div class="cards__card">
-            <img class="cards__image" src="./images/cards-karachaevsk.jpg" alt="Старинный храм в городе Карачаевск">
-            <div class="cards__caption">
-              <h2 class="cards__title">Карачаево-Черкесия</h2>
-              <div class="cards__like"></div>
-            </div>            
-          </div>
+          <article class="card">
+            <img
+              class="card__image"
+              src="./images/card-karachaevsk.jpg"
+              alt="Старинный храм в городе Карачаевск"
+            />
+            <div class="card__caption">
+              <h2 class="card__title">Карачаевск</h2>
+              <div class="card__like">
+                <button class="card__like-button" type="button"></button>
+              </div>
+            </div>
+          </article>
+          <article class="card">
+            <img
+              class="card__image"
+              src="./images/card-elbrus.jpg"
+              alt="Гора Эльбрус но фоне заката"
+            />
+            <div class="card__caption">
+              <h2 class="card__title">Гора Эльбрус</h2>
+              <div class="card__like">
+                <button class="card__like-button" type="button"></button>
+              </div>
+            </div>
+          </article>
+          <article class="card">
+            <img
+              class="card__image"
+              src="./images/card-dombay.jpg"
+              alt="Горный хребет Домбай"
+            />
+            <div class="card__caption">
+              <h2 class="card__title">Домбай</h2>
+              <div class="card__like">
+                <button class="card__like-button" type="button"></button>
+              </div>
+            </div>
+          </article>
+          <article class="card">
+            <img
+              class="card__image"
+              src="./images/card-elbrus.jpg"
+              alt="Гора Эльбрус но фоне заката"
+            />
+            <div class="card__caption">
+              <h2 class="card__title">Гора Эльбрус</h2>
+              <div class="card__like">
+                <button class="card__like-button" type="button"></button>
+              </div>
+            </div>
+          </article>
+          <article class="card">
+            <img
+              class="cards__image"
+              src="./images/card-dombay.jpg"
+              alt="Горный хребет Домбай"
+            />
+            <div class="card__caption">
+              <h2 class="card__title">Домбай</h2>
+              <div class="card__like">
+                <button class="card__like-button" type="button"></button>
+              </div>
+            </div>
+          </article>
+          <article class="card">
+            <img
+              class="card__image"
+              src="./images/card-karachaevsk.jpg"
+              alt="Старинный храм в городе Карачаевск"
+            />
+            <div class="card__caption">
+              <h2 class="card__title">Карачаево-Черкесия</h2>
+              <div class="card__like">
+                <button class="card__like-button" type="button"></button>
+              </div>
+            </div>
+          </article>
         </section>
       </main>
       <!-- Footer -->
       <footer class="footer page__footer">
         <p class="footer__copyright">© 2020 Mesto Russia</p>
       </footer>
+      <!-- Popup -->
+      <div class="popup">
+        <div class="popup__container">
+          <h2 class="popup__title">Редактировать профиль</h2>
+          <form name="profileEdit">
+            <input
+              class="popup__input popup__input_type_name"
+              type="text"
+              name="fullname"
+              value=""
+            />
+            <input
+              class="popup__input popup__input_type_description"
+              type="text"
+              name="description"
+              value=""
+            />
+            <button class="popup__submit-button" type="submit">
+              Сохранить
+            </button>
+          </form>
+          <button class="popup__close" type="button"></button>
+        </div>
+      </div>
+      <!---------------------------------------------------------->
     </div>
+
     <script src="./scripts/index.js"></script>
   </body>
 </html>

@@ -9,8 +9,8 @@ let formElement = document.querySelector(".popup__container");
 
 function openPopup() {
   popup.classList.add("popup_opened");
-  nameInput.setAttribute("value", profileName.textContent);
-  descriptionInput.setAttribute("value", profileDescription.textContent);
+  nameInput.value = profileName.textContent;
+  descriptionInput.value = profileDescription.textContent;
 }
 
 profileEditButton.addEventListener("click", openPopup);

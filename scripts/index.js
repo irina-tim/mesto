@@ -9,6 +9,7 @@ const profileName = document.querySelector(".profile__title");
 const profileDescription = document.querySelector(".profile__subtitle");
 const formElement = document.querySelector(".popup__container");
 const cardLikeButtonsList = document.querySelectorAll(".card__like-button");
+const cardTrashButtonsList = document.querySelectorAll(".card__trash-button");
 
 //Popup open
 function openPopup() {
@@ -44,5 +45,12 @@ formElement.addEventListener("submit", formSubmitHandler);
 cardLikeButtonsList.forEach((element) => {
   element.addEventListener("click", (event) => {
     element.classList.toggle("card__like-button_active");
+  });
+});
+
+//Trash button click: delete card
+cardTrashButtonsList.forEach((element) => {
+  element.addEventListener("click", () => {
+    element.parentElement.remove();
   });
 });

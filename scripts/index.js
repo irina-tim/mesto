@@ -1,12 +1,16 @@
-let popup = document.querySelector(".popup");
-let profileEditButton = document.querySelector(".profile__edit-button");
-let popupCloseButton = document.querySelector(".popup__close");
-let nameInput = document.querySelector(".popup__input_type_name");
-let descriptionInput = document.querySelector(".popup__input_type_description");
-let profileName = document.querySelector(".profile__title");
-let profileDescription = document.querySelector(".profile__subtitle");
-let formElement = document.querySelector(".popup__container");
+const popup = document.querySelector(".popup");
+const profileEditButton = document.querySelector(".profile__edit-button");
+const popupCloseButton = document.querySelector(".popup__close");
+const nameInput = document.querySelector(".popup__input_type_name");
+const descriptionInput = document.querySelector(
+  ".popup__input_type_description"
+);
+const profileName = document.querySelector(".profile__title");
+const profileDescription = document.querySelector(".profile__subtitle");
+const formElement = document.querySelector(".popup__container");
+const cardLikeButtonsList = document.querySelectorAll(".card__like-button");
 
+//Popup open
 function openPopup() {
   popup.classList.add("popup_opened");
   nameInput.value = profileName.textContent;
@@ -15,6 +19,7 @@ function openPopup() {
 
 profileEditButton.addEventListener("click", openPopup);
 
+//Popup close
 function closePopup() {
   popup.classList.remove("popup_opened");
 }
@@ -22,11 +27,10 @@ function closePopup() {
 popupCloseButton.addEventListener("click", closePopup);
 
 popup.addEventListener("click", (event) => {
-  if (event.target === event.currentTarget) {
-    closePopup();
-  }
+  event.target === event.currentTarget && closePopup();
 });
 
+//Submit button click
 function formSubmitHandler(evt) {
   evt.preventDefault();
   profileName.textContent = nameInput.value;
@@ -35,3 +39,10 @@ function formSubmitHandler(evt) {
 }
 
 formElement.addEventListener("submit", formSubmitHandler);
+
+//Like button click
+cardLikeButtonsList.forEach((element) => {
+  element.addEventListener("click", (event) => {
+    element.classList.toggle("card__like-button_active");
+  });
+});

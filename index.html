@@ -32,135 +32,14 @@
           ></button>
         </section>
         <!-- Cards section -->
-        <section class="cards page__cards">
-          <article class="card">
-            <img
-              class="card__image"
-              src="./images/card-karachaevsk.jpg"
-              alt="Старинный храм в городе Карачаевск"
-            />
-            <div class="card__caption">
-              <h2 class="card__title">Карачаевск</h2>
-              <button
-                class="card__like-button"
-                type="button"
-                aria-label="Поставить лайк"
-              ></button>
-            </div>
-            <button
-              class="card__trash-button"
-              type="button"
-              aria-label="Удалить карточку"
-            ></button>
-          </article>
-          <article class="card">
-            <img
-              class="card__image"
-              src="./images/card-elbrus.jpg"
-              alt="Гора Эльбрус но фоне заката"
-            />
-            <div class="card__caption">
-              <h2 class="card__title">Гора Эльбрус</h2>
-              <button
-                class="card__like-button"
-                type="button"
-                aria-label="Поставить лайк"
-              ></button>
-            </div>
-            <button
-              class="card__trash-button"
-              type="button"
-              aria-label="Удалить карточку"
-            ></button>
-          </article>
-          <article class="card">
-            <img
-              class="card__image"
-              src="./images/card-dombay.jpg"
-              alt="Горный хребет Домбай"
-            />
-            <div class="card__caption">
-              <h2 class="card__title">Домбай</h2>
-              <button
-                class="card__like-button"
-                type="button"
-                aria-label="Поставить лайк"
-              ></button>
-            </div>
-            <button
-              class="card__trash-button"
-              type="button"
-              aria-label="Удалить карточку"
-            ></button>
-          </article>
-          <article class="card">
-            <img
-              class="card__image"
-              src="./images/card-elbrus.jpg"
-              alt="Гора Эльбрус но фоне заката"
-            />
-            <div class="card__caption">
-              <h2 class="card__title">Гора Эльбрус</h2>
-              <button
-                class="card__like-button"
-                type="button"
-                aria-label="Поставить лайк"
-              ></button>
-            </div>
-            <button
-              class="card__trash-button"
-              type="button"
-              aria-label="Удалить карточку"
-            ></button>
-          </article>
-          <article class="card">
-            <img
-              class="cards__image"
-              src="./images/card-dombay.jpg"
-              alt="Горный хребет Домбай"
-            />
-            <div class="card__caption">
-              <h2 class="card__title">Домбай</h2>
-              <button
-                class="card__like-button"
-                type="button"
-                aria-label="Поставить лайк"
-              ></button>
-            </div>
-            <button
-              class="card__trash-button"
-              type="button"
-              aria-label="Удалить карточку"
-            ></button>
-          </article>
-          <article class="card">
-            <img
-              class="card__image"
-              src="./images/card-karachaevsk.jpg"
-              alt="Старинный храм в городе Карачаевск"
-            />
-            <div class="card__caption">
-              <h2 class="card__title">Карачаево-Черкесия</h2>
-              <button
-                class="card__like-button"
-                type="button"
-                aria-label="Поставить лайк"
-              ></button>
-            </div>
-            <button
-              class="card__trash-button"
-              type="button"
-              aria-label="Удалить карточку"
-            ></button>
-          </article>
-        </section>
+        <section class="cards page__cards"></section>
       </main>
       <!-- Footer -->
       <footer class="footer page__footer">
         <p class="footer__copyright">© 2020 Mesto Russia</p>
       </footer>
-      <!-- Popup -->
-      <div class="popup">
+      <!-- Popup: profile edit -->
+      <div class="popup popup-profile-edit">
         <div class="popup__container">
           <h2 class="popup__title">Редактировать профиль</h2>
           <form name="profileEdit">
@@ -169,6 +48,7 @@
               type="text"
               name="fullname"
               value=""
+              placeholder="Название"
             />
             <input
               class="popup__input popup__input_type_description"
@@ -187,7 +67,55 @@
           ></button>
         </div>
       </div>
+      <!-- Popup: add card -->
+      <div class="popup popup-add-card">
+        <div class="popup__container">
+          <h2 class="popup__title">Новое место</h2>
+          <form name="profileEdit">
+            <input
+              class="popup__input popup__input_type_card-title"
+              type="text"
+              name="fullname"
+              value=""
+              placeholder="Название"
+            />
+            <input
+              class="popup__input popup__input_type_image-link"
+              type="text"
+              name="description"
+              value=""
+              placeholder="Ссылка на картинку"
+            />
+            <button class="popup__submit-button" type="submit">
+              Сохранить
+            </button>
+          </form>
+          <button
+            class="popup__close"
+            type="button"
+            aria-label="Закрыть окно редактирования профиля"
+          ></button>
+        </div>
+      </div>
     </div>
+    <template>
+      <article class="card">
+        <img class="card__image" />
+        <div class="card__caption">
+          <h2 class="card__title"></h2>
+          <button
+            class="card__like-button"
+            type="button"
+            aria-label="Поставить лайк"
+          ></button>
+        </div>
+        <button
+          class="card__trash-button"
+          type="button"
+          aria-label="Удалить карточку"
+        ></button>
+      </article>
+    </template>
     <script src="./scripts/index.js"></script>
   </body>
 </html>

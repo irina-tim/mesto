@@ -13,6 +13,11 @@
   margin-bottom: 52px;
 }
 
+.popup__input::placeholder {
+  color: #c4c4c4;
+  font: normal 14px/17px "Inter", Arial, sans-serif;
+}
+
 @media screen and (max-width: 600px) {
   .popup__input {
     width: 238px;

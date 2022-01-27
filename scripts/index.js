@@ -24,7 +24,7 @@ const formProfileEdit = document.querySelector(
 const formAddCard = document.querySelector(".popup-add-card .popup__container");
 const cardLikeButtonsList = document.querySelectorAll(".card__like-button");
 const cardTrashButtonsList = document.querySelectorAll(".card__trash-button");
-const cardTemplate = document.querySelector("template");
+const cardTemplate = document.querySelector(".card-template");
 const sectionWithCards = document.querySelector(".cards");
 const initialCards = [
   {
@@ -70,15 +70,16 @@ function openPopupAddCard() {
 addCardButton.addEventListener("click", openPopupAddCard);
 
 //Popups close
-function closePopup(evt) {
-  evt.target.parentElement.parentElement.classList.remove("popup_opened");
+function closePopup() {
+  document.querySelector(".popup_opened").classList.remove("popup_opened");
 }
 
 function closePopupClickOutside(popup) {
-  popup.addEventListener("click", (event) => {
-    event.target === event.currentTarget &&
-      event.target.classList.remove("popup_opened");
-  });
+  function popupClose(evt) {
+    evt.target === evt.currentTarget &&
+      evt.target.classList.remove("popup_opened");
+  }
+  popup.addEventListener("click", popupClose);
 }
 
 popupProfileCloseButton.addEventListener("click", closePopup);
@@ -103,18 +104,13 @@ function addCard(link, title) {
   const newCardTitle = newCard.querySelector(".card__title");
   newCardImage.alt = title || "Картинка отсутствует";
   newCardTitle.textContent = title || "Без названия";
+  newCardImage.src = link;
 
-  //Image validation (only valid images 100px+ x 100px+ allowed)
+  //Image validation
   const img = new Image();
-  let imgWidth;
-  let imgHeight;
   img.src = link;
-  newCardImage.src = "./images/no-image.jpg";
-  img.onload = function () {
-    imgWidth = this.width;
-    imgHeight = this.height;
-    newCardImage.src =
-      imgWidth < 100 || imgHeight < 100 ? "./images/no-image.jpg" : link;
+  img.onerror = () => {
+    newCardImage.src = "./images/no-image.jpg";
   };
 
   sectionWithCards.prepend(newCard);
@@ -123,19 +119,22 @@ function addCard(link, title) {
 }
 
 //Submit button click (add card)
-formAddCard.addEventListener("submit", (event) => {
-  event.preventDefault();
+function submitCard(evt) {
+  evt.preventDefault();
   addCard(cardImageLinkInput.value, cardTitleInput.value);
-  closePopup(event);
+  closePopup(evt);
   cardTitleInput.value = "";
   cardImageLinkInput.value = "";
-});
+}
+
+formAddCard.addEventListener("submit", submitCard);
 
 //Like button click
 function likeClickListener(el) {
-  el.addEventListener("click", () => {
+  function likeClick() {
     el.classList.toggle("card__like-button_active");
-  });
+  }
+  el.addEventListener("click", likeClick);
 }
 
 cardLikeButtonsList.forEach((element) => {
@@ -144,9 +143,10 @@ cardLikeButtonsList.forEach((element) => {
 
 //Trash button click: delete card
 function trashClickListener(el) {
-  el.addEventListener("click", (event) => {
+  function removeCard() {
     el.parentElement.remove();
-  });
+  }
+  el.addEventListener("click", removeCard);
 }
 
 cardTrashButtonsList.forEach((element) => {

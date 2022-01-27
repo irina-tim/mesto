@@ -32,7 +32,10 @@
           ></button>
         </section>
         <!-- Cards section -->
-        <section class="cards page__cards"></section>
+        <section
+          class="cards page__cards"
+          aria-label="Карточки с фотографиями"
+        ></section>
       </main>
       <!-- Footer -->
       <footer class="footer page__footer">
@@ -92,6 +95,22 @@
           </form>
           <button
             class="popup__close"
+            type="button"
+            aria-label="Закрыть окно редактирования профиля"
+          ></button>
+        </div>
+      </div>
+      <!-- Popup: photo-view -->
+      <div class="popup popup-photo-view">
+        <div class="popup-photo-view__container">
+          <img
+            class="popup-photo-view__image"
+            src="./images/no-image.jpg"
+            alt="Фото отсутствует"
+          />
+          <h2 class="popup-photo-view__title">Новое место</h2>
+          <button
+            class="popup-photo-view__close-button"
             type="button"
             aria-label="Закрыть окно редактирования профиля"
           ></button>

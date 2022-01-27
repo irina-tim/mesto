@@ -26,6 +26,10 @@ const cardLikeButtonsList = document.querySelectorAll(".card__like-button");
 const cardTrashButtonsList = document.querySelectorAll(".card__trash-button");
 const cardTemplate = document.querySelector(".card-template");
 const sectionWithCards = document.querySelector(".cards");
+const photoViewPopup = document.querySelector(".popup-photo-view");
+const photoViewCloseButton = document.querySelector(
+  ".popup-photo-view__close-button"
+);
 const initialCards = [
   {
     name: "Архыз",
@@ -84,8 +88,10 @@ function closePopupClickOutside(popup) {
 
 popupProfileCloseButton.addEventListener("click", closePopup);
 popupAddCardCloseButton.addEventListener("click", closePopup);
+photoViewCloseButton.addEventListener("click", closePopup);
 closePopupClickOutside(popupProfile);
 closePopupClickOutside(popupAddCard);
+closePopupClickOutside(photoViewPopup);
 
 //Submit button click (profile edit)
 function formSubmitHandlerProfileEdit(evt) {
@@ -114,8 +120,9 @@ function addCard(link, title) {
   };
 
   sectionWithCards.prepend(newCard);
-  likeClickListener(newCard.querySelector(".card__like-button"));
-  trashClickListener(newCard.querySelector(".card__trash-button"));
+  addLikeClickListener(newCard.querySelector(".card__like-button"));
+  addTrashClickListener(newCard.querySelector(".card__trash-button"));
+  addImageClickListener(newCardImage);
 }
 
 //Submit button click (add card)
@@ -130,19 +137,19 @@ function submitCard(evt) {
 formAddCard.addEventListener("submit", submitCard);
 
 //Like button click
-function likeClickListener(el) {
-  function likeClick() {
+function addLikeClickListener(el) {
+  function clickLike() {
     el.classList.toggle("card__like-button_active");
   }
-  el.addEventListener("click", likeClick);
+  el.addEventListener("click", clickLike);
 }
 
 cardLikeButtonsList.forEach((element) => {
-  likeClickListener(element);
+  addLikeClickListener(element);
 });
 
 //Trash button click: delete card
-function trashClickListener(el) {
+function addTrashClickListener(el) {
   function removeCard() {
     el.parentElement.remove();
   }
@@ -150,10 +157,27 @@ function trashClickListener(el) {
 }
 
 cardTrashButtonsList.forEach((element) => {
-  trashClickListener(element);
+  addTrashClickListener(element);
 });
 
 //Add 6 default cards
 initialCards.forEach((card) => {
   addCard(card.link, card.name);
+});
+
+//Card image click
+const cardsImagesList = document.querySelectorAll(".card__image");
+
+function addImageClickListener(img) {
+  function сlickImage() {
+    photoViewPopup.classList.add("popup_opened");
+    document.querySelector(".popup-photo-view__image").src = img.src;
+    document.querySelector(".popup-photo-view__title").textContent =
+      img.parentElement.querySelector(".card__title").textContent;
+  }
+  img.addEventListener("click", сlickImage);
+}
+
+cardsImagesList.forEach((image) => {
+  addImageClickListener(image);
 });

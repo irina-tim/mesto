@@ -26,57 +26,35 @@ const photoViewCloseButton = document.querySelector(
 );
 
 //Open popup
-function resetFields(popup) {
-  const popupForm = popup.querySelector(inputData.formSelector);
-  popupForm.reset();
-  const inputList = Array.from(
-    popupForm.querySelectorAll(inputData.inputSelector)
-  );
-  inputList.forEach((inputElement) => {
-    hideInputError(popupForm, inputElement, inputData);
-  });
-}
-
-function toggleSubmitButton(popup) {
-  const popupForm = popup.querySelector(inputData.formSelector);
-  const inputList = Array.from(
-    popupForm.querySelectorAll(inputData.inputSelector)
-  );
-  toggleButtonState(
-    inputList,
-    popupForm.querySelector(inputData.submitButtonSelector),
-    inputData
-  );
-}
-
 function openPopup(popup) {
   popup.classList.add("popup_opened");
-  popup !== photoViewPopup && resetFields(popup);
   document.addEventListener("keydown", closePopupProfileByEsc);
 }
 
 //Open popup (profile edit)
 function openPopupProfile() {
   openPopup(popupProfile);
+  resetFields(popupProfile, inputData);
   nameInput.value = profileName.textContent;
   descriptionInput.value = profileDescription.textContent;
-  toggleSubmitButton(popupProfile);
+  toggleSubmitButton(popupProfile, inputData);
 }
 
 //Open popup (card add)
 function openPopupAddCard() {
   openPopup(popupAddCard);
-  toggleSubmitButton(popupAddCard);
+  resetFields(popupAddCard, inputData);
+  toggleSubmitButton(popupAddCard, inputData);
 }
 
 //Popups close
 function closePopup(popup) {
   popup.classList.remove("popup_opened");
+  document.removeEventListener("keydown", closePopupProfileByEsc);
 }
 
 function popupClose(evt) {
-  evt.target === evt.currentTarget &&
-    evt.target.classList.remove("popup_opened");
+  evt.target === evt.currentTarget && closePopup(evt.target);
 }
 
 function closePopupClickOutside(popup) {
@@ -142,6 +120,10 @@ function submitCard(evt) {
   closePopup(popupAddCard);
   cardTitleInput.value = "";
   cardImageLinkInput.value = "";
+  disableSubmitButton(
+    popupAddCard.querySelector(inputData.submitButtonSelector),
+    inputData
+  );
 }
 
 //Like button click

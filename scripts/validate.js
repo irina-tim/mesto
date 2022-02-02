@@ -68,10 +68,38 @@ function hasInvalidInput(inputList) {
 
 function toggleButtonState(inputList, buttonElement, data) {
   if (hasInvalidInput(inputList)) {
-    buttonElement.classList.add(data.inactiveButtonClass);
+    disableSubmitButton(buttonElement, data);
   } else {
-    buttonElement.classList.remove(data.inactiveButtonClass);
+    enableSubmitButton(buttonElement, data);
   }
+}
+
+function enableSubmitButton(buttonElement, data) {
+  buttonElement.classList.remove(data.inactiveButtonClass);
+  buttonElement.removeAttribute("disabled");
+}
+
+function disableSubmitButton(buttonElement, data) {
+  buttonElement.classList.add(data.inactiveButtonClass);
+  buttonElement.setAttribute("disabled", true);
+}
+
+function resetFields(popup, data) {
+  const popupForm = popup.querySelector(data.formSelector);
+  popupForm.reset();
+  const inputList = Array.from(popupForm.querySelectorAll(data.inputSelector));
+  inputList.forEach((inputElement) => {
+    hideInputError(popupForm, inputElement, data);
+  });
+}
+
+function toggleSubmitButton(popup, data) {
+  const formElement = popup.querySelector(data.formSelector);
+  const inputList = Array.from(
+    formElement.querySelectorAll(data.inputSelector)
+  );
+  const buttonElement = formElement.querySelector(data.submitButtonSelector);
+  toggleButtonState(inputList, buttonElement, data);
 }
 
 enableValidation(inputData);

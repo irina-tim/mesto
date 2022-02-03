@@ -44,7 +44,10 @@ function openPopupProfile() {
 function openPopupAddCard() {
   openPopup(popupAddCard);
   resetFields(popupAddCard, inputData);
-  toggleSubmitButton(popupAddCard, inputData);
+  disableSubmitButton(
+    popupAddCard.querySelector(inputData.submitButtonSelector),
+    inputData
+  );
 }
 
 //Popups close
@@ -109,7 +112,7 @@ function addCard(link, title) {
   newCard
     .querySelector(".card__trash-button")
     .addEventListener("click", removeCard);
-  newCardImage.addEventListener("click", сlickImage);
+  newCardImage.addEventListener("click", clickImage);
   sectionWithCards.prepend(newCard);
 }
 
@@ -137,7 +140,7 @@ function removeCard(evt) {
 }
 
 //Card image click
-function сlickImage(evt) {
+function clickImage(evt) {
   openPopup(photoViewPopup);
   document.querySelector(".popup-photo-view__image").src = evt.target.src;
   document.querySelector(".popup-photo-view__title").textContent =

@@ -1,3 +1,6 @@
+import { initialCards, Card } from "./Card.js";
+import { inputData, FormValidator } from "./FormValidator.js";
+
 const popupProfile = document.querySelector(".popup-profile-edit");
 const popupAddCard = document.querySelector(".popup-add-card");
 const profileEditButton = document.querySelector(".profile__edit-button");
@@ -16,9 +19,6 @@ const cardImageLinkInput = document.querySelector(
 );
 const formProfileEdit = popupProfile.querySelector(".popup__container");
 const formAddCard = popupAddCard.querySelector(".popup__container");
-const cardLikeButtonsList = document.querySelectorAll(".card__like-button");
-const cardTrashButtonsList = document.querySelectorAll(".card__trash-button");
-const cardTemplate = document.querySelector(".card-template");
 const sectionWithCards = document.querySelector(".cards");
 const photoViewPopup = document.querySelector(".popup-photo-view");
 const photoViewCloseButton = document.querySelector(
@@ -33,20 +33,28 @@ function openPopup(popup) {
 
 //Open popup (profile edit)
 function openPopupProfile() {
+  const formValidator = new FormValidator(
+    inputData,
+    popupProfile.querySelector(inputData.formSelector)
+  );
   openPopup(popupProfile);
-  resetFields(popupProfile, inputData);
+  formValidator.resetFields(popupProfile);
   nameInput.value = profileName.textContent;
   descriptionInput.value = profileDescription.textContent;
-  toggleSubmitButton(popupProfile, inputData);
+  formValidator.toggleSubmitButton(popupProfile, inputData);
 }
 
 //Open popup (card add)
 function openPopupAddCard() {
+  const formValidator = new FormValidator(
+    inputData,
+    popupAddCard.querySelector(inputData.formSelector)
+  );
+
   openPopup(popupAddCard);
-  resetFields(popupAddCard, inputData);
-  disableSubmitButton(
-    popupAddCard.querySelector(inputData.submitButtonSelector),
-    inputData
+  formValidator.resetFields(popupAddCard);
+  formValidator.disableSubmitButton(
+    popupAddCard.querySelector(inputData.submitButtonSelector)
   );
 }
 
@@ -92,28 +100,8 @@ function formSubmitHandlerProfileEdit(evt) {
 
 //Add new card
 function addCard(link, title) {
-  const newCard = cardTemplate.content.querySelector(".card").cloneNode(true);
-  const newCardImage = newCard.querySelector(".card__image");
-  const newCardTitle = newCard.querySelector(".card__title");
-  newCardImage.alt = title || "Картинка отсутствует";
-  newCardTitle.textContent = title || "Без названия";
-  newCardImage.src = link;
-
-  //Image validation
-  const img = new Image();
-  img.src = link;
-  img.onerror = () => {
-    newCardImage.src = "./images/no-image.jpg";
-  };
-
-  newCard
-    .querySelector(".card__like-button")
-    .addEventListener("click", clickLike);
-  newCard
-    .querySelector(".card__trash-button")
-    .addEventListener("click", removeCard);
-  newCardImage.addEventListener("click", clickImage);
-  sectionWithCards.prepend(newCard);
+  const card = new Card(link, title, ".card-template");
+  sectionWithCards.prepend(card.generateCard());
 }
 
 //Submit button click (add card)
@@ -123,28 +111,13 @@ function submitCard(evt) {
   closePopup(popupAddCard);
   cardTitleInput.value = "";
   cardImageLinkInput.value = "";
-  disableSubmitButton(
-    popupAddCard.querySelector(inputData.submitButtonSelector),
-    inputData
+  const formValidator = new FormValidator(
+    inputData,
+    popupAddCard.querySelector(inputData.formSelector)
   );
-}
-
-//Like button click
-function clickLike(evt) {
-  evt.target.classList.toggle("card__like-button_active");
-}
-
-//Trash button click: delete card
-function removeCard(evt) {
-  evt.target.parentElement.remove();
-}
-
-//Card image click
-function clickImage(evt) {
-  openPopup(photoViewPopup);
-  document.querySelector(".popup-photo-view__image").src = evt.target.src;
-  document.querySelector(".popup-photo-view__title").textContent =
-    evt.target.parentElement.querySelector(".card__title").textContent;
+  formValidator.disableSubmitButton(
+    popupAddCard.querySelector(inputData.submitButtonSelector)
+  );
 }
 
 //Event listeners

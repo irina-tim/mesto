@@ -1,5 +1,6 @@
 import { initialCards, Card } from "./Card.js";
 import { inputData, FormValidator } from "./FormValidator.js";
+export { photoViewPopup, openPopup };
 
 const popupProfile = document.querySelector(".popup-profile-edit");
 const popupAddCard = document.querySelector(".popup-add-card");

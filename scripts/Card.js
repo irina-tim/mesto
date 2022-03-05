@@ -1,4 +1,5 @@
 export { initialCards, Card };
+import { photoViewPopup, openPopup } from "./index.js";
 
 const initialCards = [
   {

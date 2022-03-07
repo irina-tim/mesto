@@ -1,5 +1,4 @@
 export { initialCards, Card };
-import { photoViewPopup, openPopup } from "./index.js";
 
 const initialCards = [
   {
@@ -29,10 +28,11 @@ const initialCards = [
 ];
 
 class Card {
-  constructor(link, title, cardSelector) {
+  constructor(link, title, cardSelector, handleCardClick) {
     this._title = title;
     this._link = link;
     this._cardSelector = cardSelector;
+    this._handleCardClick = handleCardClick;
   }
 
   _getTemplate() {
@@ -47,14 +47,7 @@ class Card {
   }
 
   _removeCard(evt) {
-    evt.target.parentElement.remove();
-  }
-
-  _clickImage(evt) {
-    openPopup(photoViewPopup);
-    document.querySelector(".popup-photo-view__image").src = evt.target.src;
-    document.querySelector(".popup-photo-view__title").textContent =
-      evt.target.parentElement.querySelector(".card__title").textContent;
+    evt.target.closest(".card").remove();
   }
 
   _setEventListeners() {
@@ -64,7 +57,9 @@ class Card {
     this._element
       .querySelector(".card__trash-button")
       .addEventListener("click", this._removeCard);
-    this._cardImage.addEventListener("click", this._clickImage);
+    this._cardImage.addEventListener("click", () => {
+      this._handleCardClick(this._title, this._link);
+    });
   }
 
   _setValidImage() {

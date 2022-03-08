@@ -5,8 +5,6 @@ const popupProfile = document.querySelector(".popup-profile-edit");
 const popupAddCard = document.querySelector(".popup-add-card");
 const profileEditButton = document.querySelector(".profile__edit-button");
 const addCardButton = document.querySelector(".profile__add-button");
-const popupAddCardCloseButton = popupAddCard.querySelector(".popup__close");
-const popupProfileCloseButton = popupProfile.querySelector(".popup__close");
 const nameInput = document.querySelector(".popup__input_type_name");
 const descriptionInput = document.querySelector(
   ".popup__input_type_description"
@@ -21,25 +19,30 @@ const formProfileEdit = popupProfile.querySelector(".popup__container");
 const formAddCard = popupAddCard.querySelector(".popup__container");
 const sectionWithCards = document.querySelector(".cards");
 const photoViewPopup = document.querySelector(".popup-photo-view");
-const photoViewCloseButton = photoViewPopup.querySelector(".popup__close");
 const imagePopupPicture = document.querySelector(".popup-photo-view__image");
 const imageCaption = document.querySelector(".popup-photo-view__title");
+let formList;
+const formValidators = {};
+const popups = document.querySelectorAll(".popup");
 
-const formList = Array.from(document.querySelectorAll(inputData.formSelector));
-formList.forEach((formElement) => {
-  const formValidator = new FormValidator(inputData, formElement);
-  formValidator.enableValidation();
+popups.forEach((popup) => {
+  popup.addEventListener("mousedown", (evt) => {
+    evt.target.classList.contains("popup_opened") && closePopup(popup);
+    evt.target.classList.contains("popup__close") && closePopup(popup);
+  });
 });
 
-const formValidatorProfileEdit = new FormValidator(
-  inputData,
-  popupProfile.querySelector(inputData.formSelector)
-);
+const enableValidation = (inputData) => {
+  formList = Array.from(document.querySelectorAll(inputData.formSelector));
+  formList.forEach((formElement) => {
+    const validator = new FormValidator(inputData, formElement);
+    const formName = formElement.getAttribute("name");
+    formValidators[formName] = validator;
+    validator.enableValidation();
+  });
+};
 
-const formValidatorAddCard = new FormValidator(
-  inputData,
-  popupAddCard.querySelector(inputData.formSelector)
-);
+enableValidation(inputData);
 
 function handleCardClick(title, link) {
   imagePopupPicture.src = link;
@@ -57,43 +60,23 @@ function openPopup(popup) {
 //Open popup (profile edit)
 function openPopupProfile() {
   openPopup(popupProfile);
-  formValidatorProfileEdit.resetFields(popupProfile);
+  formValidators["profileEdit"].resetFields(popupProfile);
   nameInput.value = profileName.textContent;
   descriptionInput.value = profileDescription.textContent;
-  formValidatorProfileEdit.toggleSubmitButton();
+  formValidators["profileEdit"].toggleSubmitButton();
 }
 
 //Open popup (card add)
 function openPopupAddCard() {
   openPopup(popupAddCard);
-  formValidatorAddCard.resetFields(popupAddCard);
-  formValidatorAddCard.disableSubmitButton();
+  formValidators["addCard"].resetFields(popupAddCard);
+  formValidators["addCard"].resetValidation();
 }
 
 //Popups close
 function closePopup(popup) {
   popup.classList.remove("popup_opened");
   document.removeEventListener("keydown", handleEscapeKey);
-}
-
-function handleOverlayClick(evt) {
-  evt.target === evt.currentTarget && closePopup(evt.target);
-}
-
-function closePopupClickOutside(popup) {
-  popup.addEventListener("click", handleOverlayClick);
-}
-
-function closePopupProfile() {
-  closePopup(popupProfile);
-}
-
-function closePopupAddCard() {
-  closePopup(popupAddCard);
-}
-
-function closePopupPhotoView() {
-  closePopup(photoViewPopup);
 }
 
 function handleEscapeKey(evt) {
@@ -128,21 +111,14 @@ function submitCard(evt) {
   closePopup(popupAddCard);
   cardTitleInput.value = "";
   cardImageLinkInput.value = "";
-  formValidatorProfileEdit.disableSubmitButton();
+  formValidators["profileEdit"].disableSubmitButton();
 }
 
 //Event listeners
 profileEditButton.addEventListener("click", openPopupProfile);
 addCardButton.addEventListener("click", openPopupAddCard);
-popupProfileCloseButton.addEventListener("click", closePopupProfile);
-popupAddCardCloseButton.addEventListener("click", closePopupAddCard);
-photoViewCloseButton.addEventListener("click", closePopupPhotoView);
 formProfileEdit.addEventListener("submit", handleProfileFormSubmit);
 formAddCard.addEventListener("submit", submitCard);
-
-closePopupClickOutside(popupProfile);
-closePopupClickOutside(popupAddCard);
-closePopupClickOutside(photoViewPopup);
 
 //Add 6 default cards
 initialCards.forEach((card) => {

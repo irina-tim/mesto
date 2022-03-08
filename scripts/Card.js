@@ -67,6 +67,7 @@ class Card {
     img.src = this._link;
     img.onerror = () => {
       this._cardImage.src = "./images/no-image.jpg";
+      this._link = "./images/no-image.jpg";
     };
   }
 

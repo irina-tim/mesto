@@ -59,18 +59,16 @@ function openPopup(popup) {
 
 //Open popup (profile edit)
 function openPopupProfile() {
+  formValidators["profileEdit"].resetValidation();
   openPopup(popupProfile);
-  formValidators["profileEdit"].resetFields(popupProfile);
   nameInput.value = profileName.textContent;
   descriptionInput.value = profileDescription.textContent;
-  formValidators["profileEdit"].toggleSubmitButton();
 }
 
 //Open popup (card add)
 function openPopupAddCard() {
-  openPopup(popupAddCard);
-  formValidators["addCard"].resetFields(popupAddCard);
   formValidators["addCard"].resetValidation();
+  openPopup(popupAddCard);
 }
 
 //Popups close
@@ -111,7 +109,7 @@ function submitCard(evt) {
   closePopup(popupAddCard);
   cardTitleInput.value = "";
   cardImageLinkInput.value = "";
-  formValidators["profileEdit"].disableSubmitButton();
+  console.log(cardTitleInput);
 }
 
 //Event listeners

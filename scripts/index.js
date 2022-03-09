@@ -109,7 +109,6 @@ function submitCard(evt) {
   closePopup(popupAddCard);
   cardTitleInput.value = "";
   cardImageLinkInput.value = "";
-  console.log(cardTitleInput);
 }
 
 //Event listeners

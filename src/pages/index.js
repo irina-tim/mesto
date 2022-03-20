@@ -72,8 +72,9 @@ enableValidation(inputData);
 function openPopupProfile() {
   formValidators["profileEdit"].resetValidation();
   popupProfileEdit.open();
-  nameInput.value = userInfo.getUserInfo().name;
-  descriptionInput.value = userInfo.getUserInfo().description;
+  const userInfoObj = userInfo.getUserInfo();
+  nameInput.value = userInfoObj.name;
+  descriptionInput.value = userInfoObj.description;
 }
 
 //Open popup (card add)
@@ -83,15 +84,13 @@ function openPopupAddCard() {
 }
 
 //Submit button click (profile edit)
-function handleProfileFormSubmit(evt) {
-  evt.preventDefault();
+function handleProfileFormSubmit() {
   userInfo.setUserInfo(nameInput.value, descriptionInput.value);
   popupProfileEdit.close();
 }
 
 //Submit button click (add card)
-function submitCard(evt, item) {
-  evt.preventDefault();
+function submitCard(item) {
   createCard(item.link, item.title);
   popupCardAdd.close();
 }

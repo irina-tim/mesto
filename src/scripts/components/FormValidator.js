@@ -47,14 +47,14 @@ class FormValidator {
     this._errorElement.textContent = "";
   }
 
-  _hasInvalidInput(inputList) {
-    return inputList.some((inputElement) => {
+  _hasInvalidInput() {
+    return this._inputList.some((inputElement) => {
       return !inputElement.validity.valid;
     });
   }
 
   _toggleButtonState() {
-    if (this._hasInvalidInput(this._inputList)) {
+    if (this._hasInvalidInput()) {
       this.disableSubmitButton();
     } else {
       this._enableSubmitButton();

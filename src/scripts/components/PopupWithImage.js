@@ -7,11 +7,15 @@ import {
 export { PopupWithImage };
 
 class PopupWithImage extends Popup {
-  open(title, link) {
+  constructor(popupSelector) {
+    super(popupSelector);
     this._imagePopupPicture = document.querySelector(
       photoViewPopupImageSelector
     );
     this._imageCaption = document.querySelector(photoViewPopupCaptionSelector);
+  }
+
+  open(title, link) {
     this._imagePopupPicture.src = link;
     this._imagePopupPicture.alt = title;
     this._imageCaption.textContent = title;

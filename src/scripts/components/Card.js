@@ -1,3 +1,5 @@
+const noImage = require("../../images/no-image.jpg");
+
 export { Card };
 
 class Card {
@@ -39,8 +41,8 @@ class Card {
     const img = new Image();
     img.src = this._link;
     img.onerror = () => {
-      this._cardImage.src = "./images/no-image.jpg";
-      this._link = "./images/no-image.jpg";
+      this._cardImage.src = noImage;
+      this._link = noImage;
     };
   }
 

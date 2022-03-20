@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Mesto</title>
-    <link rel="stylesheet" href="./pages/index.css" />
   </head>
   <body>
     <div class="page">
@@ -135,7 +134,7 @@
         <div class="popup-photo-view__container">
           <img
             class="popup-photo-view__image"
-            src="./images/no-image.jpg"
+            src="<%=require('./images/no-image.jpg')%>"
             alt="Фото отсутствует"
           />
           <h2 class="popup-photo-view__title">Новое место</h2>
@@ -165,6 +164,5 @@
         ></button>
       </article>
     </template>
-    <script type="module" src="./pages/index.js"></script>
   </body>
 </html>

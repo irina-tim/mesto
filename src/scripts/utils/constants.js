@@ -6,6 +6,7 @@ export const inputData = {
   inputErrorClass: "popup__input_type_error",
   errorClass: "popup__input-error_visible",
 };
+export const profileAvatar = document.querySelector(".profile__avatar");
 export const profileEditButton = document.querySelector(
   ".profile__edit-button"
 );
@@ -21,6 +22,7 @@ export const photoViewPopupCaptionSelector = ".popup-photo-view__title";
 export const photoViewPopupSelector = ".popup-photo-view";
 export const addCardPopupSelector = ".popup-add-card";
 export const profileEditPopupSelector = ".popup-profile-edit";
+export const avatarUpdatePopupSelector = ".popup-avatar-update";
 export const cardTemplateSelector = ".card-template";
 export const initialCards = [
   {

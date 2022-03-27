@@ -145,6 +145,56 @@
           ></button>
         </div>
       </div>
+      <!-- Popup: update avatar -->
+      <div class="popup popup-avatar-update">
+        <div class="popup__container">
+          <h2 class="popup__title">Обновить аватар</h2>
+          <form class="popup__form" name="avatarUpdate">
+            <div class="popup__field">
+              <input
+                id="avatar-link-input"
+                class="popup__input popup__input_type_avatar-link"
+                type="url"
+                name="link"
+                value=""
+                placeholder="Ссылка на новый аватар"
+                required
+              />
+              <span class="avatar-link-input-error popup__input-error"></span>
+            </div>
+            <button
+              class="popup__submit-button popup__submit-button_disabled"
+              type="submit"
+            >
+              Сохранить
+            </button>
+          </form>
+          <button
+            class="popup__close"
+            type="button"
+            aria-label="Закрыть окно изменения фото профиля"
+          ></button>
+        </div>
+      </div>
+      <!-- Popup: deletion confirmation -->
+      <div class="popup popup-deletion-confirmation">
+        <div class="popup__container">
+          <h2 class="popup__title">Вы уверены?</h2>
+          <form class="popup__form" name="deletionConfirmation">
+            <button
+              class="popup__submit-button popup__submit-button_disabled"
+              type="submit"
+            >
+              Сохранить
+            </button>
+          </form>
+          <button
+            class="popup__close"
+            type="button"
+            aria-label="Закрыть окно подтверждения удаления карточки"
+          ></button>
+        </div>
+      </div>
     </div>
     <template class="card-template">
       <article class="card">

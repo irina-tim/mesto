@@ -8,6 +8,7 @@ import { PopupWithForm } from "../scripts/components/PopupWithForm.js";
 import { UserInfo } from "../scripts/components/UserInfo.js";
 import {
   inputData,
+  profileAvatar,
   profileEditButton,
   addCardButton,
   nameInput,
@@ -15,8 +16,10 @@ import {
   photoViewPopupSelector,
   addCardPopupSelector,
   profileEditPopupSelector,
+  avatarUpdatePopupSelector,
   cardTemplateSelector,
 } from "../scripts/utils/constants.js";
+import { Avatar } from "../scripts/components/Avatar";
 
 let formList;
 const formValidators = {};
@@ -41,6 +44,13 @@ const popupProfileEdit = new PopupWithForm(
   handleProfileFormSubmit
 );
 popupProfileEdit.setEventListeners();
+
+//Avatar update popup
+const popupAvatarUpdate = new PopupWithForm(
+  avatarUpdatePopupSelector,
+  handleAvatarUpdateFormSubmit
+);
+popupAvatarUpdate.setEventListeners();
 
 const cardsList = new Section(
   {
@@ -83,6 +93,12 @@ function openPopupAddCard() {
   popupCardAdd.open();
 }
 
+//Open popup (avatar update)
+function openPopupAvatarUpdate() {
+  formValidators["avatarUpdate"].resetValidation();
+  popupAvatarUpdate.open();
+}
+
 //Submit button click (profile edit)
 function handleProfileFormSubmit() {
   userInfo.setUserInfo(nameInput.value, descriptionInput.value);
@@ -93,6 +109,13 @@ function handleProfileFormSubmit() {
 function submitCard(item) {
   createCard(item.link, item.title);
   popupCardAdd.close();
+}
+
+//Submit button click (avatar update)
+function handleAvatarUpdateFormSubmit({ link }) {
+  const avatar = new Avatar(link, profileAvatar);
+  avatar.setNewAvatar();
+  popupAvatarUpdate.close();
 }
 
 function handleCardClick(title, link) {
@@ -109,3 +132,4 @@ function createCard(link, title) {
 //Event listeners
 profileEditButton.addEventListener("click", openPopupProfile);
 addCardButton.addEventListener("click", openPopupAddCard);
+profileAvatar.addEventListener("click", openPopupAvatarUpdate);

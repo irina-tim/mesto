@@ -3,11 +3,18 @@ const noImage = require("../../images/no-image.jpg");
 export { Card };
 
 class Card {
-  constructor(link, title, cardSelector, handleCardClick) {
+  constructor(
+    link,
+    title,
+    cardSelector,
+    handleCardClick,
+    handleTrashButtonClick
+  ) {
     this._title = title;
     this._link = link;
     this._cardSelector = cardSelector;
     this._handleCardClick = handleCardClick;
+    this._handleTrashButtonClick = handleTrashButtonClick;
   }
 
   _getTemplate() {
@@ -21,17 +28,20 @@ class Card {
     evt.target.classList.toggle("card__like-button_active");
   }
 
-  _removeCard(evt) {
+  removeCard(evt) {
     evt.target.closest(".card").remove();
   }
 
-  _setEventListeners() {
+  setEventListeners() {
     this._element
       .querySelector(".card__like-button")
       .addEventListener("click", this._clickLike);
     this._element
       .querySelector(".card__trash-button")
-      .addEventListener("click", this._removeCard);
+      .addEventListener(
+        "click",
+        this._handleTrashButtonClick /*this.removeCard*/
+      );
     this._cardImage.addEventListener("click", () => {
       this._handleCardClick(this._title, this._link);
     });
@@ -54,7 +64,7 @@ class Card {
     this._cardImage.alt = this._title || "Картинка отсутствует";
     this._element.querySelector(".card__title").textContent =
       this._title || "Без названия";
-    this._setEventListeners();
+    this.setEventListeners();
     return this._element;
   }
 }

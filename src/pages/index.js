@@ -6,6 +6,7 @@ import { Section } from "../scripts/components/Section.js";
 import { PopupWithImage } from "../scripts/components/PopupWithImage.js";
 import { PopupWithForm } from "../scripts/components/PopupWithForm.js";
 import { UserInfo } from "../scripts/components/UserInfo.js";
+import { PopupWithConfirmation } from "../scripts/components/PopupWithConfirmation.js";
 import {
   inputData,
   profileAvatar,
@@ -17,6 +18,7 @@ import {
   addCardPopupSelector,
   profileEditPopupSelector,
   avatarUpdatePopupSelector,
+  deletionConfirmationPopupSelector,
   cardTemplateSelector,
 } from "../scripts/utils/constants.js";
 import { Avatar } from "../scripts/components/Avatar";
@@ -33,6 +35,13 @@ const userInfo = new UserInfo({
 //Photo view popup
 const photoViewPopup = new PopupWithImage(photoViewPopupSelector);
 photoViewPopup.setEventListeners();
+
+//Deletion confirmation popup
+const popupDeletionConfirmation = new PopupWithConfirmation(
+  deletionConfirmationPopupSelector,
+  handleDeletionConfirmationSubmit
+);
+popupDeletionConfirmation.setEventListeners();
 
 //Add new card popup
 const popupCardAdd = new PopupWithForm(addCardPopupSelector, submitCard);
@@ -118,13 +127,28 @@ function handleAvatarUpdateFormSubmit({ link }) {
   popupAvatarUpdate.close();
 }
 
+//Submit button click (deletion confirmation)
+function handleDeletionConfirmationSubmit(cardId) {
+  //Delete card with cardId
+}
+
+function handleTrashButtonClick(cardId) {
+  popupDeletionConfirmation.open(cardId);
+}
+
 function handleCardClick(title, link) {
   photoViewPopup.open(title, link);
 }
 
 //Add new card
 function createCard(link, title) {
-  const card = new Card(link, title, cardTemplateSelector, handleCardClick);
+  const card = new Card(
+    link,
+    title,
+    cardTemplateSelector,
+    handleCardClick,
+    handleTrashButtonClick
+  );
   const cardElement = card.generateCard();
   cardsList.addItem(cardElement);
 }

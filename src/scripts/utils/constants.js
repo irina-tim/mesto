@@ -23,6 +23,7 @@ export const photoViewPopupSelector = ".popup-photo-view";
 export const addCardPopupSelector = ".popup-add-card";
 export const profileEditPopupSelector = ".popup-profile-edit";
 export const avatarUpdatePopupSelector = ".popup-avatar-update";
+export const deletionConfirmationPopupSelector = ".popup-deletion-confirmation";
 export const cardTemplateSelector = ".card-template";
 export const initialCards = [
   {

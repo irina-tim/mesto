@@ -181,12 +181,7 @@
         <div class="popup__container">
           <h2 class="popup__title">Вы уверены?</h2>
           <form class="popup__form" name="deletionConfirmation">
-            <button
-              class="popup__submit-button popup__submit-button_disabled"
-              type="submit"
-            >
-              Сохранить
-            </button>
+            <button class="popup__submit-button" type="submit">Да</button>
           </form>
           <button
             class="popup__close"
@@ -201,11 +196,14 @@
         <img class="card__image" />
         <div class="card__caption">
           <h2 class="card__title"></h2>
-          <button
-            class="card__like-button"
-            type="button"
-            aria-label="Поставить лайк"
-          ></button>
+          <div class="card__like">
+            <button
+              class="card__like-button"
+              type="button"
+              aria-label="Поставить лайк"
+            ></button>
+            <div class="card__like-counter">0</div>
+          </div>
         </div>
         <button
           class="card__trash-button"

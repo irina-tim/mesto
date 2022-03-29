@@ -30,4 +30,24 @@ class Api {
       );
     });
   }
+
+  updateUserInfo(userName, userAbout) {
+    return fetch(this._options.baseUrl + "/users/me", {
+      method: "PATCH",
+      headers: this._options.headers,
+      body: JSON.stringify({
+        name: userName,
+        about: userAbout,
+      }),
+    }).then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+      return Promise.reject(
+        `Ошибка загрузки информации о пользователе: ${res.status}`
+      );
+    });
+  }
 }
+
+// updateUserAvatar() {}

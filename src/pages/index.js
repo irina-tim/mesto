@@ -143,7 +143,17 @@ function openPopupAvatarUpdate() {
 
 //Submit button click (profile edit)
 function handleProfileFormSubmit() {
-  userInfo.setUserInfo(nameInput.value, descriptionInput.value);
+  api
+    .updateUserInfo(nameInput.value, descriptionInput.value)
+    .then((result) => {
+      userInfo.setUserInfo(result.name, result.about);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  ///!!!
+  //userInfo.setUserInfo(nameInput.value, descriptionInput.value)
+
   popupProfileEdit.close();
 }
 

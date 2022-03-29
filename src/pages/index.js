@@ -165,8 +165,17 @@ function submitCard(item) {
 
 //Submit button click (avatar update)
 function handleAvatarUpdateFormSubmit({ link }) {
-  avatar.setNewAvatar(link);
-  popupAvatarUpdate.close();
+  api
+    .updateUserAvatar(link)
+    .then((result) => {
+      avatar.setNewAvatar(result.avatar);
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+    .finally(() => {
+      popupAvatarUpdate.close();
+    });
 }
 
 //Submit button click (deletion confirmation)

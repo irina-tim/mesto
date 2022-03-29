@@ -44,10 +44,25 @@ class Api {
         return res.json();
       }
       return Promise.reject(
-        `Ошибка загрузки информации о пользователе: ${res.status}`
+        `Ошибка отправки информации о пользователе: ${res.status}`
+      );
+    });
+  }
+
+  updateUserAvatar(url) {
+    return fetch(this._options.baseUrl + "/users/me/avatar", {
+      method: "PATCH",
+      headers: this._options.headers,
+      body: JSON.stringify({
+        avatar: url,
+      }),
+    }).then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+      return Promise.reject(
+        `Ошибка загрузки аватара пользователя: ${res.status}`
       );
     });
   }
 }
-
-// updateUserAvatar() {}

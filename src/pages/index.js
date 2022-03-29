@@ -1,5 +1,5 @@
 import "./index.css";
-import { initialCards } from "../scripts/utils/constants.js";
+//import { initialCards } from "../scripts/utils/constants.js";
 import { Card } from "../scripts/components/Card.js";
 import { FormValidator } from "../scripts/components/FormValidator.js";
 import { Section } from "../scripts/components/Section.js";
@@ -7,6 +7,7 @@ import { PopupWithImage } from "../scripts/components/PopupWithImage.js";
 import { PopupWithForm } from "../scripts/components/PopupWithForm.js";
 import { UserInfo } from "../scripts/components/UserInfo.js";
 import { PopupWithConfirmation } from "../scripts/components/PopupWithConfirmation.js";
+import { Api } from "../scripts/components/Api.js";
 import {
   inputData,
   profileAvatar,
@@ -25,6 +26,38 @@ import { Avatar } from "../scripts/components/Avatar";
 
 let formList;
 const formValidators = {};
+let initialCards = [];
+let cardsList;
+
+//Api
+const api = new Api({
+  baseUrl: "https://mesto.nomoreparties.co/v1/cohort-39",
+  headers: {
+    authorization: "722dbccf-1b7d-4d02-92c2-c3e9bbf9e747",
+    "Content-Type": "application/json",
+  },
+});
+
+api
+  .getInitialCards()
+  .then((result) => {
+    initialCards = result;
+    cardsList = new Section(
+      {
+        items: initialCards,
+        renderer: (item) => {
+          createCard(item.link, item.name);
+        },
+      },
+      ".cards"
+    );
+
+    //Add 6 default cards
+    cardsList.renderItems();
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 
 //User info (profile edit)
 const userInfo = new UserInfo({
@@ -60,19 +93,6 @@ const popupAvatarUpdate = new PopupWithForm(
   handleAvatarUpdateFormSubmit
 );
 popupAvatarUpdate.setEventListeners();
-
-const cardsList = new Section(
-  {
-    items: initialCards,
-    renderer: (item) => {
-      createCard(item.link, item.name);
-    },
-  },
-  ".cards"
-);
-
-//Add 6 default cards
-cardsList.renderItems();
 
 //Validation
 const enableValidation = (inputData) => {

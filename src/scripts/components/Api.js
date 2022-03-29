@@ -12,7 +12,22 @@ class Api {
       if (res.ok) {
         return res.json();
       }
-      return Promise.reject(`Ошибка: ${res.status}`);
+      return Promise.reject(
+        `Ошибка загрузки первоначальных карточек: ${res.status}`
+      );
+    });
+  }
+
+  getUserData() {
+    return fetch(this._options.baseUrl + "/users/me", {
+      headers: this._options.headers,
+    }).then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+      return Promise.reject(
+        `Ошибка загрузки информации о пользователе: ${res.status}`
+      );
     });
   }
 }

@@ -6,12 +6,14 @@ class Card {
   constructor(
     link,
     title,
+    id,
     cardSelector,
     handleCardClick,
     handleTrashButtonClick
   ) {
     this._title = title;
     this._link = link;
+    this._id = id;
     this._cardSelector = cardSelector;
     this._handleCardClick = handleCardClick;
     this._handleTrashButtonClick = handleTrashButtonClick;

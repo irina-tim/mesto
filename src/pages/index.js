@@ -28,6 +28,7 @@ let formList;
 const formValidators = {};
 let initialCards = [];
 let cardsList;
+const avatar = new Avatar(profileAvatar);
 
 //Api
 const api = new Api({
@@ -38,6 +39,7 @@ const api = new Api({
   },
 });
 
+//Get initial cards from server
 api
   .getInitialCards()
   .then((result) => {
@@ -46,7 +48,7 @@ api
       {
         items: initialCards,
         renderer: (item) => {
-          createCard(item.link, item.name);
+          createCard(item.link, item.name, item.id);
         },
       },
       ".cards"
@@ -54,6 +56,17 @@ api
 
     //Add 6 default cards
     cardsList.renderItems();
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+
+//Get user profile from server
+api
+  .getUserData()
+  .then((result) => {
+    userInfo.setUserInfo(result.name, result.about);
+    avatar.setNewAvatar(result.avatar);
   })
   .catch((err) => {
     console.log(err);
@@ -136,14 +149,13 @@ function handleProfileFormSubmit() {
 
 //Submit button click (add card)
 function submitCard(item) {
-  createCard(item.link, item.title);
+  createCard(item.link, item.title, item.id);
   popupCardAdd.close();
 }
 
 //Submit button click (avatar update)
 function handleAvatarUpdateFormSubmit({ link }) {
-  const avatar = new Avatar(link, profileAvatar);
-  avatar.setNewAvatar();
+  avatar.setNewAvatar(link);
   popupAvatarUpdate.close();
 }
 
@@ -161,10 +173,11 @@ function handleCardClick(title, link) {
 }
 
 //Add new card
-function createCard(link, title) {
+function createCard(link, title, id) {
   const card = new Card(
     link,
     title,
+    id,
     cardTemplateSelector,
     handleCardClick,
     handleTrashButtonClick

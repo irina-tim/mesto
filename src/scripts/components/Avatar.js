@@ -2,21 +2,21 @@ const noImage = require("../../images/no-image.jpg");
 export { Avatar };
 
 class Avatar {
-  constructor(link, profileAvatar) {
-    this._link = link;
+  constructor(profileAvatar) {
     this._profileAvatar = profileAvatar;
   }
 
-  _setValidImage() {
+  _setValidImage(link) {
     const img = new Image();
-    img.src = this._link;
+    img.src = link;
     img.onerror = () => {
       this._profileAvatar.style.backgroundImage = "url('" + noImage + "')";
     };
   }
 
-  setNewAvatar() {
+  setNewAvatar(link) {
+    this._link = link;
     this._profileAvatar.style.backgroundImage = "url('" + this._link + "')";
-    this._setValidImage();
+    this._setValidImage(this._link);
   }
 }

@@ -29,6 +29,8 @@ const formValidators = {};
 let initialCards = [];
 let cardsList;
 const avatar = new Avatar(profileAvatar);
+let userId;
+let card;
 
 //Api
 const api = new Api({
@@ -39,21 +41,29 @@ const api = new Api({
   },
 });
 
-//Get initial cards from server
+//Get user profile from server
 api
-  .getInitialCards()
+  .getUserData()
+  .then((result) => {
+    userInfo.setUserInfo(result.name, result.about);
+    avatar.setNewAvatar(result.avatar);
+    userId = result._id;
+  })
+  .then(() => {
+    //Get initial cards from server (waiting for user id)
+    return api.getInitialCards();
+  })
   .then((result) => {
     initialCards = result;
     cardsList = new Section(
       {
         items: initialCards,
         renderer: (item) => {
-          createCard(item.link, item.name, item.id);
+          createCard(item);
         },
       },
       ".cards"
     );
-
     //Add 6 default cards
     cardsList.renderItems();
   })
@@ -61,16 +71,23 @@ api
     console.log(err);
   });
 
-//Get user profile from server
-api
-  .getUserData()
-  .then((result) => {
-    userInfo.setUserInfo(result.name, result.about);
-    avatar.setNewAvatar(result.avatar);
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+function handleCardLike(like, cardId) {
+  if (like) {
+    api
+      .addLike(cardId)
+      .then(() => {})
+      .catch((err) => {
+        console.log(err);
+      });
+  } else {
+    api
+      .removeLike(cardId)
+      .then(() => {})
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+}
 
 //User info (profile edit)
 const userInfo = new UserInfo({
@@ -151,16 +168,21 @@ function handleProfileFormSubmit() {
     .catch((err) => {
       console.log(err);
     });
-  ///!!!
-  //userInfo.setUserInfo(nameInput.value, descriptionInput.value)
-
   popupProfileEdit.close();
 }
 
 //Submit button click (add card)
 function submitCard(item) {
-  createCard(item.link, item.title, item.id);
-  popupCardAdd.close();
+  api
+    .addNewCard(item.title, item.link)
+    .then((result) => {
+      console.log(result);
+      createCard(result);
+      popupCardAdd.close();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 }
 
 //Submit button click (avatar update)
@@ -179,12 +201,21 @@ function handleAvatarUpdateFormSubmit({ link }) {
 }
 
 //Submit button click (deletion confirmation)
-function handleDeletionConfirmationSubmit(cardId) {
-  //Delete card with cardId
+function handleDeletionConfirmationSubmit(cardId, evt) {
+  api
+    .deleteCard(cardId)
+    .then((result) => {
+      avatar.setNewAvatar(result.avatar);
+      card.removeCard(evt);
+      popupDeletionConfirmation.close();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 }
 
-function handleTrashButtonClick(cardId) {
-  popupDeletionConfirmation.open(cardId);
+function handleTrashButtonClick(cardId, evt) {
+  popupDeletionConfirmation.open(cardId, evt);
 }
 
 function handleCardClick(title, link) {
@@ -192,14 +223,14 @@ function handleCardClick(title, link) {
 }
 
 //Add new card
-function createCard(link, title, id) {
-  const card = new Card(
-    link,
-    title,
-    id,
+function createCard(data) {
+  card = new Card(
+    data,
+    userId,
     cardTemplateSelector,
     handleCardClick,
-    handleTrashButtonClick
+    handleTrashButtonClick,
+    handleCardLike
   );
   const cardElement = card.generateCard();
   cardsList.addItem(cardElement);

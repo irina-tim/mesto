@@ -4,19 +4,23 @@ export { Card };
 
 class Card {
   constructor(
-    link,
-    title,
-    id,
+    data,
+    userId,
     cardSelector,
     handleCardClick,
-    handleTrashButtonClick
+    handleTrashButtonClick,
+    handleCardLike
   ) {
-    this._title = title;
-    this._link = link;
-    this._id = id;
+    this._title = data.name;
+    this._link = data.link;
+    this._userId = userId;
+    this._likes = data.likes;
+    this._id = data._id;
+    this._cardOwnerId = data.owner._id;
     this._cardSelector = cardSelector;
     this._handleCardClick = handleCardClick;
     this._handleTrashButtonClick = handleTrashButtonClick;
+    this._handleCardLike = handleCardLike;
   }
 
   _getTemplate() {
@@ -26,8 +30,20 @@ class Card {
       .cloneNode(true);
   }
 
+  _addLike(card) {
+    card.classList.add("card__like-button_active");
+  }
+
   _clickLike(evt) {
+    this._likeCounter = evt.target
+      .closest(".card")
+      .querySelector(".card__like-counter");
     evt.target.classList.toggle("card__like-button_active");
+    this._like = evt.target.classList.contains("card__like-button_active");
+    this._likeCounter.textContent = this._like
+      ? +this._likeCounter.textContent + 1
+      : this._likeCounter.textContent - 1;
+    this._handleCardLike(this._like, evt.target.closest(".card").id);
   }
 
   removeCard(evt) {
@@ -37,13 +53,12 @@ class Card {
   setEventListeners() {
     this._element
       .querySelector(".card__like-button")
-      .addEventListener("click", this._clickLike);
+      .addEventListener("click", (evt) => this._clickLike(evt));
     this._element
       .querySelector(".card__trash-button")
-      .addEventListener(
-        "click",
-        this._handleTrashButtonClick /*this.removeCard*/
-      );
+      .addEventListener("click", (evt) =>
+        this._handleTrashButtonClick(this._id, evt)
+      ); /*this.removeCard*/
     this._cardImage.addEventListener("click", () => {
       this._handleCardClick(this._title, this._link);
     });
@@ -60,13 +75,22 @@ class Card {
 
   generateCard() {
     this._element = this._getTemplate();
+    this._cardLikes = this._element.querySelector(".card__like-counter");
     this._cardImage = this._element.querySelector(".card__image");
     this._cardImage.src = this._link;
     this._setValidImage();
     this._cardImage.alt = this._title || "Картинка отсутствует";
     this._element.querySelector(".card__title").textContent =
       this._title || "Без названия";
+    this._cardLikes.textContent = this._likes.length;
     this.setEventListeners();
+    this._element.id = this._id;
+    if (this._likes.some((el) => el._id === this._userId)) {
+      this._addLike(this._element.querySelector(".card__like-button"));
+    }
+    if (this._cardOwnerId != this._userId) {
+      this._element.querySelector(".card__trash-button").style.display = "none";
+    }
     return this._element;
   }
 }

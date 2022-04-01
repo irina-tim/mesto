@@ -31,7 +31,8 @@ class Api {
     });
   }
 
-  updateUserInfo(userName, userAbout) {
+  updateUserInfo(userName, userAbout, button, handleLoading) {
+    handleLoading(true, button);
     return fetch(this._options.baseUrl + "/users/me", {
       method: "PATCH",
       headers: this._options.headers,
@@ -49,7 +50,9 @@ class Api {
     });
   }
 
-  updateUserAvatar(url) {
+  updateUserAvatar(url, button, handleLoading) {
+    handleLoading(true, button);
+    console.log("this = " + this);
     return fetch(this._options.baseUrl + "/users/me/avatar", {
       method: "PATCH",
       headers: this._options.headers,
@@ -90,8 +93,8 @@ class Api {
     });
   }
 
-  addNewCard(cardName, cardLink) {
-    //console.log(cardName, cardLink);
+  addNewCard(cardName, cardLink, button, handleLoading) {
+    handleLoading(true, button);
     return fetch(this._options.baseUrl + "/cards", {
       method: "POST",
       headers: this._options.headers,

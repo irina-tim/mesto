@@ -58,7 +58,7 @@ class Card {
       .querySelector(".card__trash-button")
       .addEventListener("click", (evt) =>
         this._handleTrashButtonClick(this._id, evt)
-      ); /*this.removeCard*/
+      );
     this._cardImage.addEventListener("click", () => {
       this._handleCardClick(this._title, this._link);
     });

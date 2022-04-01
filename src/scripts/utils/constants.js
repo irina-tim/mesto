@@ -25,29 +25,12 @@ export const profileEditPopupSelector = ".popup-profile-edit";
 export const avatarUpdatePopupSelector = ".popup-avatar-update";
 export const deletionConfirmationPopupSelector = ".popup-deletion-confirmation";
 export const cardTemplateSelector = ".card-template";
-export const initialCards = [
-  {
-    name: "Архыз",
-    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg",
-  },
-  {
-    name: "Челябинская область",
-    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg",
-  },
-  {
-    name: "Иваново",
-    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg",
-  },
-  {
-    name: "Камчатка",
-    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg",
-  },
-  {
-    name: "Холмогорский район",
-    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg",
-  },
-  {
-    name: "Байкал",
-    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg",
-  },
-];
+export const submitButtonAddCardPopup = document
+  .querySelector(addCardPopupSelector)
+  .querySelector(".popup__submit-button");
+export const submitButtonPofileEditPopup = document
+  .querySelector(profileEditPopupSelector)
+  .querySelector(".popup__submit-button");
+export const submitButtonAvatarUpdatePopup = document
+  .querySelector(avatarUpdatePopupSelector)
+  .querySelector(".popup__submit-button");

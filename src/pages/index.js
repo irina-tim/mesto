@@ -1,5 +1,4 @@
 import "./index.css";
-//import { initialCards } from "../scripts/utils/constants.js";
 import { Card } from "../scripts/components/Card.js";
 import { FormValidator } from "../scripts/components/FormValidator.js";
 import { Section } from "../scripts/components/Section.js";
@@ -21,6 +20,9 @@ import {
   avatarUpdatePopupSelector,
   deletionConfirmationPopupSelector,
   cardTemplateSelector,
+  submitButtonAddCardPopup,
+  submitButtonPofileEditPopup,
+  submitButtonAvatarUpdatePopup,
 } from "../scripts/utils/constants.js";
 import { Avatar } from "../scripts/components/Avatar";
 
@@ -87,6 +89,10 @@ function handleCardLike(like, cardId) {
         console.log(err);
       });
   }
+}
+
+function handleLoading(isLoading, button) {
+  button.textContent = isLoading ? "Сохранение..." : "Сохранить";
 }
 
 //User info (profile edit)
@@ -161,12 +167,20 @@ function openPopupAvatarUpdate() {
 //Submit button click (profile edit)
 function handleProfileFormSubmit() {
   api
-    .updateUserInfo(nameInput.value, descriptionInput.value)
+    .updateUserInfo(
+      nameInput.value,
+      descriptionInput.value,
+      submitButtonPofileEditPopup,
+      handleLoading
+    )
     .then((result) => {
       userInfo.setUserInfo(result.name, result.about);
     })
     .catch((err) => {
       console.log(err);
+    })
+    .finally(() => {
+      setTimeout(() => handleLoading(false, submitButtonPofileEditPopup), 500);
     });
   popupProfileEdit.close();
 }
@@ -174,21 +188,24 @@ function handleProfileFormSubmit() {
 //Submit button click (add card)
 function submitCard(item) {
   api
-    .addNewCard(item.title, item.link)
+    .addNewCard(item.title, item.link, submitButtonAddCardPopup, handleLoading)
     .then((result) => {
       console.log(result);
       createCard(result);
-      popupCardAdd.close();
     })
     .catch((err) => {
       console.log(err);
+    })
+    .finally(() => {
+      popupCardAdd.close();
+      setTimeout(() => handleLoading(false, submitButtonAddCardPopup), 500);
     });
 }
 
 //Submit button click (avatar update)
 function handleAvatarUpdateFormSubmit({ link }) {
   api
-    .updateUserAvatar(link)
+    .updateUserAvatar(link, submitButtonAvatarUpdatePopup, handleLoading)
     .then((result) => {
       avatar.setNewAvatar(result.avatar);
     })
@@ -197,6 +214,10 @@ function handleAvatarUpdateFormSubmit({ link }) {
     })
     .finally(() => {
       popupAvatarUpdate.close();
+      setTimeout(
+        () => handleLoading(false, submitButtonAvatarUpdatePopup),
+        500
+      );
     });
 }
 
@@ -204,8 +225,7 @@ function handleAvatarUpdateFormSubmit({ link }) {
 function handleDeletionConfirmationSubmit(cardId, evt) {
   api
     .deleteCard(cardId)
-    .then((result) => {
-      avatar.setNewAvatar(result.avatar);
+    .then(() => {
       card.removeCard(evt);
       popupDeletionConfirmation.close();
     })

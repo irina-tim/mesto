@@ -4,8 +4,6 @@ import {
   photoViewPopupCaptionSelector,
 } from "../utils/constants.js";
 
-export { PopupWithImage };
-
 class PopupWithImage extends Popup {
   constructor(popupSelector) {
     super(popupSelector);
@@ -22,3 +20,5 @@ class PopupWithImage extends Popup {
     super.open();
   }
 }
+
+export { PopupWithImage };

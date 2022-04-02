@@ -12,27 +12,18 @@ import {
   profileAvatar,
   profileEditButton,
   addCardButton,
-  nameInput,
-  descriptionInput,
   photoViewPopupSelector,
   addCardPopupSelector,
   profileEditPopupSelector,
   avatarUpdatePopupSelector,
   deletionConfirmationPopupSelector,
   cardTemplateSelector,
-  submitButtonAddCardPopup,
-  submitButtonPofileEditPopup,
-  submitButtonAvatarUpdatePopup,
 } from "../scripts/utils/constants.js";
-import { Avatar } from "../scripts/components/Avatar";
 
 let formList;
 const formValidators = {};
-let initialCards = [];
 let cardsList;
-const avatar = new Avatar(profileAvatar);
 let userId;
-let card;
 
 //Api
 const api = new Api({
@@ -43,20 +34,19 @@ const api = new Api({
   },
 });
 
-//Get user profile from server
-api
-  .getUserData()
-  .then((result) => {
-    userInfo.setUserInfo(result.name, result.about);
-    avatar.setNewAvatar(result.avatar);
-    userId = result._id;
-  })
-  .then(() => {
-    //Get initial cards from server (waiting for user id)
-    return api.getInitialCards();
-  })
-  .then((result) => {
-    initialCards = result;
+//User info (profile edit)
+const userInfo = new UserInfo({
+  nameSelector: ".profile__title",
+  descriptionSelector: ".profile__subtitle",
+  profileAvatar,
+});
+
+//Get user profile and initial cards from server
+Promise.all([api.getUserData(), api.getInitialCards()])
+  .then(([userData, initialCards]) => {
+    userInfo.setUserInfo(userData.name, userData.about);
+    userInfo.setAvatar(userData.avatar);
+    userId = userData._id;
     cardsList = new Section(
       {
         items: initialCards,
@@ -66,40 +56,34 @@ api
       },
       ".cards"
     );
-    //Add 6 default cards
+    //Render initial cards
     cardsList.renderItems();
   })
   .catch((err) => {
     console.log(err);
   });
 
-function handleCardLike(like, cardId) {
-  if (like) {
+function handleCardLike(evt, card) {
+  if (!this._like) {
     api
-      .addLike(cardId)
-      .then(() => {})
+      .addLike(card._id)
+      .then((res) => {
+        card.toggleLike(evt, res.likes.length, card._cardLikes);
+      })
       .catch((err) => {
         console.log(err);
       });
   } else {
     api
-      .removeLike(cardId)
-      .then(() => {})
+      .removeLike(card._id)
+      .then((res) => {
+        card.toggleLike(evt, res.likes.length, card._cardLikes);
+      })
       .catch((err) => {
         console.log(err);
       });
   }
 }
-
-function handleLoading(isLoading, button) {
-  button.textContent = isLoading ? "Сохранение..." : "Сохранить";
-}
-
-//User info (profile edit)
-const userInfo = new UserInfo({
-  nameSelector: ".profile__title",
-  descriptionSelector: ".profile__subtitle",
-});
 
 //Photo view popup
 const photoViewPopup = new PopupWithImage(photoViewPopupSelector);
@@ -108,7 +92,8 @@ photoViewPopup.setEventListeners();
 //Deletion confirmation popup
 const popupDeletionConfirmation = new PopupWithConfirmation(
   deletionConfirmationPopupSelector,
-  handleDeletionConfirmationSubmit
+  handleDeletionConfirmationSubmit,
+  inputData
 );
 popupDeletionConfirmation.setEventListeners();
 
@@ -148,8 +133,7 @@ function openPopupProfile() {
   formValidators["profileEdit"].resetValidation();
   popupProfileEdit.open();
   const userInfoObj = userInfo.getUserInfo();
-  nameInput.value = userInfoObj.name;
-  descriptionInput.value = userInfoObj.description;
+  popupProfileEdit.setInputValues(userInfoObj);
 }
 
 //Open popup (card add)
@@ -165,68 +149,64 @@ function openPopupAvatarUpdate() {
 }
 
 //Submit button click (profile edit)
-function handleProfileFormSubmit() {
+function handleProfileFormSubmit(inputValues) {
+  popupProfileEdit.renderLoading(true);
   api
-    .updateUserInfo(
-      nameInput.value,
-      descriptionInput.value,
-      submitButtonPofileEditPopup,
-      handleLoading
-    )
+    .updateUserInfo(inputValues.name, inputValues.description)
     .then((result) => {
       userInfo.setUserInfo(result.name, result.about);
     })
+    .then(() => {
+      popupProfileEdit.close();
+      setTimeout(() => popupProfileEdit.renderLoading(false), 500);
+    })
     .catch((err) => {
       console.log(err);
-    })
-    .finally(() => {
-      setTimeout(() => handleLoading(false, submitButtonPofileEditPopup), 500);
     });
-  popupProfileEdit.close();
 }
 
 //Submit button click (add card)
 function submitCard(item) {
+  popupCardAdd.renderLoading(true);
   api
-    .addNewCard(item.title, item.link, submitButtonAddCardPopup, handleLoading)
+    .addNewCard(item.title, item.link)
     .then((result) => {
-      console.log(result);
       createCard(result);
+    })
+    .then(() => {
+      popupCardAdd.close();
+      setTimeout(() => popupCardAdd.renderLoading(false), 500);
     })
     .catch((err) => {
       console.log(err);
-    })
-    .finally(() => {
-      popupCardAdd.close();
-      setTimeout(() => handleLoading(false, submitButtonAddCardPopup), 500);
     });
 }
 
 //Submit button click (avatar update)
 function handleAvatarUpdateFormSubmit({ link }) {
+  popupAvatarUpdate.renderLoading(true);
   api
-    .updateUserAvatar(link, submitButtonAvatarUpdatePopup, handleLoading)
+    .updateUserAvatar(link)
     .then((result) => {
-      avatar.setNewAvatar(result.avatar);
+      userInfo.setAvatar(result.avatar);
+    })
+    .then(() => {
+      popupAvatarUpdate.close();
+      setTimeout(() => popupAvatarUpdate.renderLoading(false), 500);
     })
     .catch((err) => {
       console.log(err);
-    })
-    .finally(() => {
-      popupAvatarUpdate.close();
-      setTimeout(
-        () => handleLoading(false, submitButtonAvatarUpdatePopup),
-        500
-      );
     });
 }
 
 //Submit button click (deletion confirmation)
-function handleDeletionConfirmationSubmit(cardId, evt) {
+function handleDeletionConfirmationSubmit(cardId, card) {
   api
     .deleteCard(cardId)
     .then(() => {
-      card.removeCard(evt);
+      card.removeCard();
+    })
+    .then(() => {
       popupDeletionConfirmation.close();
     })
     .catch((err) => {
@@ -244,7 +224,7 @@ function handleCardClick(title, link) {
 
 //Add new card
 function createCard(data) {
-  card = new Card(
+  const card = new Card(
     data,
     userId,
     cardTemplateSelector,

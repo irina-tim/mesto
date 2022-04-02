@@ -1,4 +1,3 @@
-export { Popup };
 import {
   openedPopupSelector,
   closePopupButtonSelector,
@@ -32,7 +31,9 @@ class Popup {
         evt.target.classList.contains(openedPopupSelector) ||
         evt.target.classList.contains(closePopupButtonSelector)
       )
-        this.close(this._popup);
+        this.close();
     });
   }
 }
+
+export { Popup };

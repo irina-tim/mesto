@@ -1,7 +1,5 @@
 const noImage = require("../../images/no-image.jpg");
 
-export { Card };
-
 class Card {
   constructor(
     data,
@@ -34,20 +32,18 @@ class Card {
     card.classList.add("card__like-button_active");
   }
 
-  _clickLike(evt) {
-    this._likeCounter = evt.target
-      .closest(".card")
-      .querySelector(".card__like-counter");
+  toggleLike(evt, likes, cardLikes) {
     evt.target.classList.toggle("card__like-button_active");
-    this._like = evt.target.classList.contains("card__like-button_active");
-    this._likeCounter.textContent = this._like
-      ? +this._likeCounter.textContent + 1
-      : this._likeCounter.textContent - 1;
-    this._handleCardLike(this._like, evt.target.closest(".card").id);
+    cardLikes.textContent = likes;
   }
 
-  removeCard(evt) {
-    evt.target.closest(".card").remove();
+  _clickLike(evt) {
+    this._like = evt.target.classList.contains("card__like-button_active");
+    this._handleCardLike(evt, this);
+  }
+
+  removeCard() {
+    this._element.remove();
   }
 
   setEventListeners() {
@@ -57,7 +53,7 @@ class Card {
     this._element
       .querySelector(".card__trash-button")
       .addEventListener("click", (evt) =>
-        this._handleTrashButtonClick(this._id, evt)
+        this._handleTrashButtonClick(this._id, this)
       );
     this._cardImage.addEventListener("click", () => {
       this._handleCardClick(this._title, this._link);
@@ -94,3 +90,5 @@ class Card {
     return this._element;
   }
 }
+
+export { Card };

@@ -28,18 +28,20 @@ class Card {
       .cloneNode(true);
   }
 
-  _addLike(card) {
-    card.classList.add("card__like-button_active");
+  _addLike(cardLikeButton) {
+    cardLikeButton.classList.add("card__like-button_active");
   }
 
-  toggleLike(evt, likes, cardLikes) {
-    evt.target.classList.toggle("card__like-button_active");
-    cardLikes.textContent = likes;
+  toggleLike(res) {
+    this._element
+      .querySelector(".card__like-button")
+      .classList.toggle("card__like-button_active");
+    this._cardLikes.textContent = res.likes.length;
   }
 
   _clickLike(evt) {
-    this._like = evt.target.classList.contains("card__like-button_active");
-    this._handleCardLike(evt, this);
+    this.like = evt.target.classList.contains("card__like-button_active");
+    this._handleCardLike(this);
   }
 
   removeCard() {
@@ -52,9 +54,7 @@ class Card {
       .addEventListener("click", (evt) => this._clickLike(evt));
     this._element
       .querySelector(".card__trash-button")
-      .addEventListener("click", (evt) =>
-        this._handleTrashButtonClick(this._id, this)
-      );
+      .addEventListener("click", () => this._handleTrashButtonClick(this));
     this._cardImage.addEventListener("click", () => {
       this._handleCardClick(this._title, this._link);
     });
@@ -67,6 +67,10 @@ class Card {
       this._cardImage.src = noImage;
       this._link = noImage;
     };
+  }
+
+  getId() {
+    return this._id;
   }
 
   generateCard() {

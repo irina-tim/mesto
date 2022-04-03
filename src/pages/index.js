@@ -63,21 +63,21 @@ Promise.all([api.getUserData(), api.getInitialCards()])
     console.log(err);
   });
 
-function handleCardLike(evt, card) {
-  if (!this._like) {
+function handleCardLike(card) {
+  if (!card.like) {
     api
-      .addLike(card._id)
+      .addLike(card.getId())
       .then((res) => {
-        card.toggleLike(evt, res.likes.length, card._cardLikes);
+        card.toggleLike(res);
       })
       .catch((err) => {
         console.log(err);
       });
   } else {
     api
-      .removeLike(card._id)
+      .removeLike(card.getId())
       .then((res) => {
-        card.toggleLike(evt, res.likes.length, card._cardLikes);
+        card.toggleLike(res);
       })
       .catch((err) => {
         console.log(err);
@@ -158,10 +158,12 @@ function handleProfileFormSubmit(inputValues) {
     })
     .then(() => {
       popupProfileEdit.close();
-      setTimeout(() => popupProfileEdit.renderLoading(false), 500);
     })
     .catch((err) => {
       console.log(err);
+    })
+    .finally(() => {
+      popupProfileEdit.renderLoading(false);
     });
 }
 
@@ -175,10 +177,12 @@ function submitCard(item) {
     })
     .then(() => {
       popupCardAdd.close();
-      setTimeout(() => popupCardAdd.renderLoading(false), 500);
     })
     .catch((err) => {
       console.log(err);
+    })
+    .finally(() => {
+      popupCardAdd.renderLoading(false);
     });
 }
 
@@ -192,10 +196,12 @@ function handleAvatarUpdateFormSubmit({ link }) {
     })
     .then(() => {
       popupAvatarUpdate.close();
-      setTimeout(() => popupAvatarUpdate.renderLoading(false), 500);
     })
     .catch((err) => {
       console.log(err);
+    })
+    .finally(() => {
+      popupAvatarUpdate.renderLoading(false);
     });
 }
 
@@ -214,8 +220,8 @@ function handleDeletionConfirmationSubmit(cardId, card) {
     });
 }
 
-function handleTrashButtonClick(cardId, evt) {
-  popupDeletionConfirmation.open(cardId, evt);
+function handleTrashButtonClick(card) {
+  popupDeletionConfirmation.open(card.getId(), card);
 }
 
 function handleCardClick(title, link) {
